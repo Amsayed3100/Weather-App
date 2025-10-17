@@ -1,0 +1,1 @@
+This is the "Weather App" that is created by me. I've created this project using HTML, Tailwind CSS and JavaScript. it's a beginner level project but you can know about weather of any city of any country using it.
