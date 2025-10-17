@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link href="./output.css" rel="stylesheet">
+   
+   
+</head>
+<body class="bg-blue-950">
+    <div class="bg-cyan-500 text-amber-50 mt-17 ml-70 w-75 h-90 rounded-xl">
+        <div >
+        <input  id="input" type=" text" placeholder=" Enter city name" spellcheck="false" class="text-gray-600 rounded-2xl mt-2 ml-2 bg-amber-50 border-amber-50">
+        <button id="btn" class="cursor-pointer bg-blue-800 text-amber-50 rounded-sm hover:bg-blue-950" onclick="checkweateher(area)">Search</button>
+        </div>
+    <div class="pl-25 pt-1.5">
+        <img src="https://i.postimg.cc/PfpSp1gB/weather.png" alt="image" width="80px" id="icon">
+        <h1 class="pl-5 font-bold text-2xl" id="temp">°C</h1>
+        <h2 class="mt-2 font-bold text-xl" id="city">unkown</h2>
+    </div>
+    <section>
+       <div>
+         <div class="pl-5 pt-8 flex space-x-39">
+            <img src="https://i.postimg.cc/B6k3HCG2/humidity-1.png" alt="icon" width="50px">
+            <img src="https://i.postimg.cc/C1w1GXfk/wind.png" alt="wind" width="50px">
+        </div>
+          
+        <div class="flex space-x-34">
+          <div>
+            <p class="pl-6" id="humidity">0%</p>
+           <p class="pl-3">Humidity</p>
+          </div>
+          
+          <div>
+              <p id="wind">0.00 Km/h</p>
+              <p>wind speed</p>
+          </div>
+          
+        </div>
+    </div>
+    </section>
+
+    <script>
+            let apikey="77cc8887fc62db58803174a655f7a3d5";
+         let apiurl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+         
+         let search=document.getElementById("input");
+         let btn=document.getElementById("btn");   
+
+   async function checkweateher(area){
+     
+     let response=await fetch(apiurl + area +  `&appid=${apikey}`);
+    
+     if(response.status == 404){
+        alert("city not found!");
+        return;
+      }else{
+     
+    
+     
+     let data=await response.json();
+     let temp=document.getElementById("temp");
+     let cities=document.getElementById("city"); 
+     let humidity=document.getElementById("humidity"); 
+     let wind=document.getElementById("wind");
+     let icon=document.getElementById("icon");
+     
+     if(data.weather[0].main=="Mist"){
+       icon.src="https://postimg.cc/Wt1GJgSg"; 
+     }else if(data.weather[0].main=="Rain"){
+      icon.src="https://i.postimg.cc/BvTrqPYg/heavy-rain.png";
+     }else if(data.weather[0].main=="Clear"){
+      icon.src="https://i.postimg.cc/fRBZ4h4g/sun-6974833.png";
+     }else if(data.weather[0].main=="Clouds"){
+      icon.src="https://i.postimg.cc/htqggsyG/cloud.png";
+     }else if(data.weather[0].main=="Drizzle"){
+      icon.src="https://i.postimg.cc/mgNVFy9d/vecteezy-3d-weather-icon-day-with-rain-24825195.png";
+     }
+
+
+     temp.innerHTML=Math.round(data.main.temp) + "°C";
+     cities.innerHTML=data.name;
+     humidity.innerHTML=data.main.humidity + "%";
+     wind.innerHTML=data.wind.speed + " km/h";
+    }
+    }
+
+       
+     btn.addEventListener("click",()=>{
+        checkweateher(search.value);
+       }
+      );
+        
+    </script>
+      
+</body>
+</html>
